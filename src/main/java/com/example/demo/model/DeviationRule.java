@@ -9,19 +9,15 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RecoveryCurveProfile {
+public class DeviationRule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String metricName;
+    private String ruleName;
 
-    private Double expectedMinValue;
+    private Double thresholdValue;
 
-    private Double expectedMaxValue;
-
-    @ManyToOne
-    @JoinColumn(name = "patient_id")
-    private PatientProfile patient;
+    private String condition;
 }

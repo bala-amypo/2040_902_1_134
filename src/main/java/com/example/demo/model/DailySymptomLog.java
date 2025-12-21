@@ -3,23 +3,25 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RecoveryCurveProfile {
+public class DailySymptomLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String metricName;
+    private LocalDate logDate;
 
-    private Double expectedMinValue;
+    private Integer painLevel;
 
-    private Double expectedMaxValue;
+    private String notes;
 
     @ManyToOne
     @JoinColumn(name = "patient_id")
