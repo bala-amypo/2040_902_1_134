@@ -1,7 +1,7 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.ClinicalAlert;
-import com.example.demo.repository.ClinicalAlertRepository;
+import com.example.demo.model.ClinicalAlertRecord;
+import com.example.demo.repository.ClinicalAlertRecordRepository;
 import com.example.demo.service.ClinicalAlertService;
 import org.springframework.stereotype.Service;
 
@@ -10,26 +10,28 @@ import java.util.List;
 @Service
 public class ClinicalAlertServiceImpl implements ClinicalAlertService {
 
-    private final ClinicalAlertRepository repository;
+    private final ClinicalAlertRecordRepository repository;
 
-    public ClinicalAlertServiceImpl(ClinicalAlertRepository repository) {
+    public ClinicalAlertServiceImpl(ClinicalAlertRecordRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public ClinicalAlert createAlert(ClinicalAlert alert) {
+    public ClinicalAlertRecord createAlert(ClinicalAlertRecord alert) {
         alert.setResolved(false);
         return repository.save(alert);
     }
 
     @Override
-    public List<ClinicalAlert> getAlertsByPatient(Long patientId) {
+    public List<ClinicalAlertRecord> getAlertsByPatient(Long patientId) {
         return repository.findByPatientId(patientId);
     }
 
     @Override
-    public ClinicalAlert resolveAlert(Long alertId) {
-        ClinicalAlert alert = repository.findById(alertId).orElse(null);
+    public ClinicalAlertRecord resolveAlert(Long alertId) {
+        ClinicalAlertRecord alert =
+                repository.findById(alertId).orElse(null);
+
         if (alert != null) {
             alert.setResolved(true);
             repository.save(alert);
@@ -38,7 +40,7 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
     }
 
     @Override
-    public List<ClinicalAlert> getAllAlerts() {
+    public List<ClinicalAlertRecord> getAllAlerts() {
         return repository.findAll();
     }
 }
