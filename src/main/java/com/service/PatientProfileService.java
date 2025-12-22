@@ -10,4 +10,6 @@ public interface PatientProfileService {
     PatientProfile getPatientById(Long id);
 
     List<PatientProfile> getAllPatients();
+
+    PatientProfile updatePatientStatus(Long id, boolean active);
 }
