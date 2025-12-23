@@ -1,11 +1,11 @@
 package com.example.demo.service;
 
-import com.example.demo.model.DeviationRule;
-import java.util.List;
+import org.springframework.stereotype.Service;
 
-public interface DeviationRuleService {
+@Service
+public class DeviationRuleService {
 
-    DeviationRule createRule(DeviationRule rule);
-
-    List<DeviationRule> getAllRules();
+    public String getMessage() {
+        return "Deviation Rule Service is working";
+    }
 }
