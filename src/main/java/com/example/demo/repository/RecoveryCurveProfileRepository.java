@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface RecoveryCurveProfileRepository
+public interface RecoveryCurveRepository
         extends JpaRepository<RecoveryCurveProfile, Long> {
 
-    List<RecoveryCurveProfile> findBySurgeryType(String surgeryType);
+    List<RecoveryCurveProfile> findByPatientId(Long patientId);
 }
