@@ -1,23 +1,21 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.*;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class DeviationRule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String ruleName;
+    private int thresholdPain;
 
-    private Double thresholdValue;
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    private String condition;
+    public int getThresholdPain() { return thresholdPain; }
+    public void setThresholdPain(int thresholdPain) {
+        this.thresholdPain = thresholdPain;
+    }
 }
