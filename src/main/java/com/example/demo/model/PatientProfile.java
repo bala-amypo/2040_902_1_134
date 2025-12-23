@@ -1,29 +1,27 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.time.LocalDate;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class PatientProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String patientName;
-
+    private String name;
+    private int age;
     private String surgeryType;
 
-    private LocalDate surgeryDate;
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private AppUser user;
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public int getAge() { return age; }
+    public void setAge(int age) { this.age = age; }
+
+    public String getSurgeryType() { return surgeryType; }
+    public void setSurgeryType(String surgeryType) { this.surgeryType = surgeryType; }
 }
