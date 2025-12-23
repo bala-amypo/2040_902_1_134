@@ -9,13 +9,28 @@ public class DeviationRule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int thresholdPain;
+    private String symptom;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    private Double thresholdDeviation;
 
-    public int getThresholdPain() { return thresholdPain; }
-    public void setThresholdPain(int thresholdPain) {
-        this.thresholdPain = thresholdPain;
+    // getters & setters
+    public Long getId() {
+        return id;
+    }
+
+    public String getSymptom() {
+        return symptom;
+    }
+
+    public void setSymptom(String symptom) {
+        this.symptom = symptom;
+    }
+
+    public Double getThresholdDeviation() {
+        return thresholdDeviation;
+    }
+
+    public void setThresholdDeviation(Double thresholdDeviation) {
+        this.thresholdDeviation = thresholdDeviation;
     }
 }
