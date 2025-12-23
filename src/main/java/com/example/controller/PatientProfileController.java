@@ -22,12 +22,12 @@ public class PatientProfileController {
     }
 
     @GetMapping("/{id}")
-    public PatientProfile getById(@PathVariable Long id) {
+    public PatientProfile get(@PathVariable Long id) {
         return service.getProfileById(id);
     }
 
     @GetMapping
-    public List<PatientProfile> getAll() {
+    public List<PatientProfile> all() {
         return service.getAllProfiles();
     }
 }

@@ -7,7 +7,5 @@ public interface DeviationRuleService {
 
     DeviationRule createRule(DeviationRule rule);
 
-    List<DeviationRule> getRulesBySurgery(String surgeryType);
-
     List<DeviationRule> getAllRules();
 }

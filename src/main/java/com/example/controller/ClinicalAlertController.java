@@ -16,8 +16,13 @@ public class ClinicalAlertController {
         this.service = service;
     }
 
-    @GetMapping("/patient/{patientId}")
-    public List<ClinicalAlertRecord> getAlerts(@PathVariable Long patientId) {
-        return service.getAlertsForPatient(patientId);
+    @PostMapping
+    public ClinicalAlertRecord create(@RequestBody ClinicalAlertRecord alert) {
+        return service.createAlert(alert);
+    }
+
+    @GetMapping("/patient/{id}")
+    public List<ClinicalAlertRecord> byPatient(@PathVariable Long id) {
+        return service.getAlertsForPatient(id);
     }
 }
