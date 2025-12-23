@@ -3,7 +3,6 @@ package com.example.demo.service.impl;
 import com.example.demo.model.PatientProfile;
 import com.example.demo.repository.PatientProfileRepository;
 import com.example.demo.service.PatientProfileService;
-import com.example.demo.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,29 +16,15 @@ public class PatientProfileServiceImpl implements PatientProfileService {
         this.repository = repository;
     }
 
-    @Override
-    public PatientProfile createPatient(PatientProfile patient) {
-        if (repository.findByEmail(patient.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Email already exists");
-        }
+    public PatientProfile createProfile(PatientProfile patient) {
         return repository.save(patient);
     }
 
-    @Override
-    public PatientProfile getPatientById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
+    public PatientProfile getProfileById(Long id) {
+        return repository.findById(id).orElse(null);
     }
 
-    @Override
-    public List<PatientProfile> getAllPatients() {
+    public List<PatientProfile> getAllProfiles() {
         return repository.findAll();
-    }
-
-    @Override
-    public PatientProfile updatePatientStatus(Long id, boolean active) {
-        PatientProfile patient = getPatientById(id);
-        patient.setActive(active);
-        return repository.save(patient);
     }
 }

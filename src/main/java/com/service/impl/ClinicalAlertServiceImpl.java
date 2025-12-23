@@ -16,31 +16,11 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
         this.repository = repository;
     }
 
-    @Override
     public ClinicalAlertRecord createAlert(ClinicalAlertRecord alert) {
-        alert.setResolved(false);
         return repository.save(alert);
     }
 
-    @Override
-    public List<ClinicalAlertRecord> getAlertsByPatient(Long patientId) {
+    public List<ClinicalAlertRecord> getAlertsForPatient(Long patientId) {
         return repository.findByPatientId(patientId);
-    }
-
-    @Override
-    public ClinicalAlertRecord resolveAlert(Long alertId) {
-        ClinicalAlertRecord alert =
-                repository.findById(alertId).orElse(null);
-
-        if (alert != null) {
-            alert.setResolved(true);
-            repository.save(alert);
-        }
-        return alert;
-    }
-
-    @Override
-    public List<ClinicalAlertRecord> getAllAlerts() {
-        return repository.findAll();
     }
 }

@@ -1,7 +1,5 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dto.AuthRequest;
-import com.example.demo.dto.RegisterRequest;
 import com.example.demo.model.AppUser;
 import com.example.demo.repository.AppUserRepository;
 import com.example.demo.service.AuthService;
@@ -16,18 +14,13 @@ public class AuthServiceImpl implements AuthService {
         this.repository = repository;
     }
 
-    @Override
-    public String register(RegisterRequest request) {
-        AppUser user = new AppUser();
-        user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
-        user.setRole(request.getRole());
-        repository.save(user);
-        return "User registered";
+    public AppUser register(AppUser user) {
+        return repository.save(user);
     }
 
-    @Override
-    public String login(AuthRequest request) {
-        return "Login successful";
+    public boolean login(String username, String password) {
+        return repository.findByUsername(username)
+                .map(u -> u.getPassword().equals(password))
+                .orElse(false);
     }
 }
