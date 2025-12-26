@@ -1,33 +1,36 @@
-package com.example.demo.controller;
+package com.example.demo.model;
 
-import com.example.demo.model.PatientProfile;
-import com.example.demo.service.PatientProfileService;
-import org.springframework.web.bind.annotation.*;
+import jakarta.persistence.*;
+import lombok.*;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
-@RestController
-@RequestMapping("/patients")
-public class PatientProfileController {
+@Entity
+@Table(name = "patient_profiles")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class PatientProfile {
 
-    private final PatientProfileService service;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public PatientProfileController(PatientProfileService service) {
-        this.service = service;
-    }
+    @Column(unique = true, nullable = false)
+    private String patientId;
 
-    @PostMapping
-    public PatientProfile create(@RequestBody PatientProfile patient) {
-        return service.createProfile(patient);
-    }
+    private String fullName;
 
-    @GetMapping("/{id}")
-    public PatientProfile get(@PathVariable Long id) {
-        return service.getProfileById(id);
-    }
+    private Integer age;
 
-    @GetMapping
-    public List<PatientProfile> all() {
-        return service.getAllProfiles();
-    }
+    @Column(unique = true)
+    private String email;
+
+    private String surgeryType;
+
+    private Boolean active = true;
+
+    private LocalDateTime createdAt;
 }
