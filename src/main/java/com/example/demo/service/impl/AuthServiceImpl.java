@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.dto.AuthRequest;
 import com.example.demo.model.AppUser;
 import com.example.demo.repository.AppUserRepository;
 import com.example.demo.service.AuthService;
@@ -14,13 +15,13 @@ public class AuthServiceImpl implements AuthService {
         this.repository = repository;
     }
 
-    public AppUser register(AppUser user) {
-        return repository.save(user);
-    }
-
-    public boolean login(String username, String password) {
-        return repository.findByUsername(username)
-                .map(u -> u.getPassword().equals(password))
-                .orElse(false);
+    @Override
+    public String login(AuthRequest request) {
+        AppUser u = repository.findByUsername(request.getUsername());
+        if (u != null && u.getPassword().equals(request.getPassword())) {
+            // Return a dummy JWT token for now, actual JWT logic will go in JwtTokenProvider
+            return "JWT-TOKEN-FOR-" + u.getUsername();
+        }
+        throw new RuntimeException("Invalid credentials");
     }
 }
