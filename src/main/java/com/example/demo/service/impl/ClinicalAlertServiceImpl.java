@@ -35,4 +35,12 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
     public void deleteAlert(Long id) {
         repository.deleteById(id);
     }
+
+    @Override
+    public List<ClinicalAlertRecord> getAlertsForPatient(Long patientId) {
+        // Replace this with actual query if you have a patientId field
+        return repository.findAll().stream()
+                .filter(alert -> alert.getPatientId().equals(patientId))
+                .toList();
+    }
 }

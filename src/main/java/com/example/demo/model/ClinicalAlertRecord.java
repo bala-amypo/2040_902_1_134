@@ -1,54 +1,41 @@
 package com.example.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "clinical_alert_records")
+@Table(name = "clinical_alerts")
 public class ClinicalAlertRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String alertMessage;
-
     private Long patientId;
 
-    public ClinicalAlertRecord() {
-    }
+    private String alertMessage;
 
-    public ClinicalAlertRecord(Long id, String alertMessage, Long patientId) {
-        this.id = id;
-        this.alertMessage = alertMessage;
+    private LocalDateTime createdAt;
+
+    public ClinicalAlertRecord() {}
+
+    public ClinicalAlertRecord(Long patientId, String alertMessage, LocalDateTime createdAt) {
         this.patientId = patientId;
+        this.alertMessage = alertMessage;
+        this.createdAt = createdAt;
     }
 
     // Getters and Setters
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Long getPatientId() { return patientId; }
+    public void setPatientId(Long patientId) { this.patientId = patientId; }
 
-    public String getAlertMessage() {
-        return alertMessage;
-    }
+    public String getAlertMessage() { return alertMessage; }
+    public void setAlertMessage(String alertMessage) { this.alertMessage = alertMessage; }
 
-    public void setAlertMessage(String alertMessage) {
-        this.alertMessage = alertMessage;
-    }
-
-    public Long getPatientId() {
-        return patientId;
-    }
-
-    public void setPatientId(Long patientId) {
-        this.patientId = patientId;
-    }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
