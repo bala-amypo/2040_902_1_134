@@ -14,8 +14,8 @@
 	<name>demo</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-    <java.version>17</java.version>
-    </properties>
+		<java.version>17</java.version>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -102,9 +102,14 @@
 							<value>false</value>
 						</property>
 					</properties>
+					<!-- Try TestNG XML file first -->
 					<suiteXmlFiles>
-						<suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+						<suiteXmlFile>${project.basedir}/src/test/resources/testng.xml</suiteXmlFile>
 					</suiteXmlFiles>
+					<!-- Fallback: include test classes directly -->
+					<includes>
+						<include>**/*Test*.java</include>
+					</includes>
 				</configuration>
 				<dependencies>
 					<dependency>
