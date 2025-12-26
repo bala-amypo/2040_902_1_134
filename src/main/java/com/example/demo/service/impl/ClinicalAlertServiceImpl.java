@@ -1,17 +1,18 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.ClinicalAlertRecord;
-import com.example.demo.repository.ClinicalAlertRepository;
+import com.example.demo.repository.ClinicalAlertRecordRepository;
 import com.example.demo.service.ClinicalAlertService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public class ClinicalAlertServiceImpl implements ClinicalAlertService {
 
-    private final ClinicalAlertRepository repository;
+    private final ClinicalAlertRecordRepository repository;
 
-    public ClinicalAlertServiceImpl(ClinicalAlertRepository repository) {
+    public ClinicalAlertServiceImpl(ClinicalAlertRecordRepository repository) {
         this.repository = repository;
     }
 
@@ -21,12 +22,17 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
     }
 
     @Override
-    public List<ClinicalAlertRecord> getAlertsForPatient(Long patientId) {
-        return repository.findByPatientId(patientId);
+    public List<ClinicalAlertRecord> getAllAlerts() {
+        return repository.findAll();
     }
 
     @Override
-    public List<ClinicalAlertRecord> getAllAlerts() {
-        return repository.findAll();
+    public ClinicalAlertRecord getAlertById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void deleteAlert(Long id) {
+        repository.deleteById(id);
     }
 }
