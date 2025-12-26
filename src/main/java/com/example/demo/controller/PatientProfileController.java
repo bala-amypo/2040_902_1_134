@@ -1,24 +1,28 @@
-package com.example.demo.model;
+package com.example.demo.controller;
 
-import jakarta.persistence.*;
-import lombok.*;
+import com.example.demo.model.PatientProfile;
+import com.example.demo.service.PatientProfileService;
+import org.springframework.web.bind.annotation.*;
 
-@Entity
-@Table(name = "patient_profiles")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class PatientProfile {
+import java.util.List;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@RestController
+@RequestMapping("/patients")
+public class PatientProfileController {
 
-    private String patientName;
+    private final PatientProfileService service;
 
-    private Integer age;
+    public PatientProfileController(PatientProfileService service) {
+        this.service = service;
+    }
 
-    private String surgeryType;
+    @PostMapping
+    public PatientProfile create(@RequestBody PatientProfile patient) {
+        return service.createPatient(patient);
+    }
 
-    private String doctorName;
+    @GetMapping
+    public List<PatientProfile> getAll() {
+        return service.getAllPatients();
+    }
 }
