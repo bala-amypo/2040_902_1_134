@@ -3,34 +3,22 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "patient_profiles")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class PatientProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String patientId;
-
-    private String fullName;
+    private String patientName;
 
     private Integer age;
 
-    @Column(unique = true)
-    private String email;
-
     private String surgeryType;
 
-    private Boolean active = true;
-
-    private LocalDateTime createdAt;
+    private String doctorName;
 }
