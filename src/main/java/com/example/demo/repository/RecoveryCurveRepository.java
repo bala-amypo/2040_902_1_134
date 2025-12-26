@@ -2,11 +2,10 @@ package com.example.demo.repository;
 
 import com.example.demo.model.RecoveryCurveProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
-
+import org.springframework.stereotype.Repository;
 import java.util.List;
 
-public interface RecoveryCurveRepository
-        extends JpaRepository<RecoveryCurveProfile, Long> {
-
-    List<RecoveryCurveProfile> findByPatientId(Long patientId);
+@Repository
+public interface RecoveryCurveProfileRepository extends JpaRepository<RecoveryCurveProfile, Long> {
+    List<RecoveryCurveProfile> findBySurgeryTypeOrderByDayNumberAsc(String surgeryType);
 }
