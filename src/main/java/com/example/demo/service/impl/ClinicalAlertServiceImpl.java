@@ -4,6 +4,7 @@ import com.example.demo.model.ClinicalAlertRecord;
 import com.example.demo.repository.ClinicalAlertRecordRepository;
 import com.example.demo.service.ClinicalAlertService;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +18,21 @@ public class ClinicalAlertServiceImpl
 
     private final ClinicalAlertRecordRepository repository;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    // ✅ CONSTRUCTOR USED BY TESTS
+    public ClinicalAlertServiceImpl(ClinicalAlertRecordRepository repository) {
+        super(ClinicalAlertRecord.class, null);
+        this.repository = repository;
+    }
+
+    // ✅ CONSTRUCTOR USED BY SPRING
     public ClinicalAlertServiceImpl(ClinicalAlertRecordRepository repository,
                                     EntityManager entityManager) {
         super(ClinicalAlertRecord.class, entityManager);
         this.repository = repository;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -52,5 +64,10 @@ public class ClinicalAlertServiceImpl
     @Override
     public List<ClinicalAlertRecord> findByPatientId(long patientId) {
         return repository.findByPatientId(patientId);
+    }
+
+    @Override
+    public List<ClinicalAlertRecord> getAllAlerts() {
+        return repository.findAll();
     }
 }
