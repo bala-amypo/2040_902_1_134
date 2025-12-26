@@ -3,16 +3,24 @@ package com.example.demo.service.impl;
 import com.example.demo.model.ClinicalAlertRecord;
 import com.example.demo.repository.ClinicalAlertRecordRepository;
 import com.example.demo.service.ClinicalAlertService;
+import jakarta.persistence.EntityManager;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ClinicalAlertServiceImpl implements ClinicalAlertService {
+public class ClinicalAlertServiceImpl
+        extends SimpleJpaRepository<ClinicalAlertRecord, Long>
+        implements ClinicalAlertService {
 
     private final ClinicalAlertRecordRepository repository;
 
-    public ClinicalAlertServiceImpl(ClinicalAlertRecordRepository repository) {
+    public ClinicalAlertServiceImpl(
+            ClinicalAlertRecordRepository repository,
+            EntityManager entityManager) {
+
+        super(ClinicalAlertRecord.class, entityManager);
         this.repository = repository;
     }
 
