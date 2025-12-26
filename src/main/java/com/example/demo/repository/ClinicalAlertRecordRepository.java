@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ClinicalAlertRepository extends JpaRepository<ClinicalAlertRecord, Long> {
+public interface ClinicalAlertRecordRepository extends JpaRepository<ClinicalAlertRecord, Long> {
 
     // This is required for getAlertsForPatient() in your service
     List<ClinicalAlertRecord> findByPatientId(Long patientId);
