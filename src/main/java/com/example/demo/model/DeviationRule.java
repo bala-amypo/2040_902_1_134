@@ -1,36 +1,26 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
+@Table(name = "deviation_rules")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class DeviationRule {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String symptom;
-
-    private Double thresholdDeviation;
-
-    // getters & setters
-    public Long getId() {
-        return id;
-    }
-
-    public String getSymptom() {
-        return symptom;
-    }
-
-    public void setSymptom(String symptom) {
-        this.symptom = symptom;
-    }
-
-    public Double getThresholdDeviation() {
-        return thresholdDeviation;
-    }
-
-    public void setThresholdDeviation(Double thresholdDeviation) {
-        this.thresholdDeviation = thresholdDeviation;
-    }
+    
+    @Column(unique = true)
+    private String ruleCode;
+    
+    private String parameter;
+    private Integer threshold;
+    private String severity;
+    
+    @Builder.Default
+    private Boolean active = true;
 }

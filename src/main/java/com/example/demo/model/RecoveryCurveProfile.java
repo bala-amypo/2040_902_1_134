@@ -1,25 +1,22 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
+@Table(name = "recovery_curve_profiles")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RecoveryCurveProfile {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Long patientId;
-    private int expectedPainLevel;
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public Long getPatientId() { return patientId; }
-    public void setPatientId(Long patientId) { this.patientId = patientId; }
-
-    public int getExpectedPainLevel() { return expectedPainLevel; }
-    public void setExpectedPainLevel(int expectedPainLevel) {
-        this.expectedPainLevel = expectedPainLevel;
-    }
+    
+    private String surgeryType;
+    private Integer dayNumber;
+    private Integer expectedPainLevel;
+    private Integer expectedMobilityLevel;
+    private Integer expectedFatigueLevel;
 }
