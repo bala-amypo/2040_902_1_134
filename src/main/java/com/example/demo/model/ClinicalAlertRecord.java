@@ -1,14 +1,18 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Entity
-@Table(name = "clinical_alert_records")
+@Table(name = "clinical_alerts")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class ClinicalAlertRecord {
 
     @Id
@@ -19,13 +23,5 @@ public class ClinicalAlertRecord {
 
     private String alertMessage;
 
-    private Boolean resolved;
-
-    private String ruleCode;
-
-    // Add any additional fields referenced in your test cases
-    // For example, timestamps if needed
-    // private LocalDateTime createdAt;
-
-    // You can also add convenience methods if your test cases reference them
+    private boolean resolved;
 }

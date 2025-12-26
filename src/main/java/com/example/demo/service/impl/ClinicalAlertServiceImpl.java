@@ -6,6 +6,7 @@ import com.example.demo.service.ClinicalAlertService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClinicalAlertServiceImpl implements ClinicalAlertService {
@@ -17,30 +18,25 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
     }
 
     @Override
-    public ClinicalAlertRecord createAlert(ClinicalAlertRecord alert) {
-        return repository.save(alert);
+    public ClinicalAlertRecord createAlert(ClinicalAlertRecord alertRecord) {
+        // When creating, resolved should default to false
+        alertRecord.setResolved(false);
+        return repository.save(alertRecord);
     }
 
     @Override
-    public List<ClinicalAlertRecord> getAllAlerts() {
-        return repository.findAll();
+    public List<ClinicalAlertRecord> getAlertsByPatient(Long patientId) {
+        return repository.findByPatientId(patientId);
     }
 
     @Override
-    public ClinicalAlertRecord getAlertById(Long id) {
-        return repository.findById(id).orElse(null);
-    }
-
-    @Override
-    public void deleteAlert(Long id) {
-        repository.deleteById(id);
-    }
-
-    @Override
-    public List<ClinicalAlertRecord> getAlertsForPatient(Long patientId) {
-        // Replace this with actual query if you have a patientId field
-        return repository.findAll().stream()
-                .filter(alert -> alert.getPatientId().equals(patientId))
-                .toList();
+    public ClinicalAlertRecord resolveAlert(Long logId) {
+        Optional<ClinicalAlertRecord> optional = repository.findById(logId);
+        if (optional.isPresent()) {
+            ClinicalAlertRecord alert = optional.get();
+            alert.setResolved(true);
+            return repository.save(alert);
+        }
+        return null; // or throw exception depending on your design
     }
 }

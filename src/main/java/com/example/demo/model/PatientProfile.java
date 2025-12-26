@@ -1,21 +1,27 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Entity
-@Getter
-@Setter
+@Table(name = "patient_profiles")
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class PatientProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long patientId;
 
-    private String name;
-    private int age;
-    private String surgeryType;
-    private String doctorName;
+    private String email;
+
+    private boolean active;
+
+    private String status; // e.g., "Recovering", "Completed"
 }

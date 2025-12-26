@@ -1,20 +1,27 @@
 package com.example.demo.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+import javax.persistence.*;
+
+@Entity
+@Table(name = "deviation_rules")
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class DeviationRule {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String ruleCode;
-    private String parameter;
-    private Integer threshold;
-    private String severity;
 
-    @Builder.Default
-    private Boolean active = true;
+    private String code;
+
+    private String description;
+
+    private boolean active;
 }
