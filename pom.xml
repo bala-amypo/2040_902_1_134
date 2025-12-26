@@ -10,40 +10,45 @@
     <packaging>jar</packaging>
 
     <name>demo</name>
-    <description>Post-Surgery Recovery Tracker API</description>
+    <description>Spring Boot Demo Project</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.3.2</version>
-        <relativePath/> 
+        <relativePath/>
     </parent>
 
     <properties>
         <java.version>17</java.version>
-        <springdoc.version>2.2.0</springdoc.version>
         <lombok.version>1.18.30</lombok.version>
+        <springdoc.version>2.2.0</springdoc.version>
     </properties>
 
     <dependencies>
-
         <!-- Spring Boot Starter Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Spring Boot Starter Data JPA -->
+        <!-- Spring Data JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- Spring Security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
         <!-- MySQL Connector (valid version) -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.34</version>
+            <version>8.0.31</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -55,17 +60,11 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Springdoc OpenAPI (Swagger UI) -->
+        <!-- Swagger / OpenAPI -->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${springdoc.version}</version>
-        </dependency>
-
-        <!-- Spring Security -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
         <!-- JWT -->
@@ -92,18 +91,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>7.8.1</version>
+            <version>7.9.0</version>
             <scope>test</scope>
         </dependency>
 
@@ -113,19 +106,17 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
         <plugins>
-
-            <!-- Spring Boot Plugin -->
+            <!-- Spring Boot Maven Plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!-- Compiler Plugin (for Lombok) -->
+            <!-- Compiler Plugin (for Lombok support) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -142,7 +133,6 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 
