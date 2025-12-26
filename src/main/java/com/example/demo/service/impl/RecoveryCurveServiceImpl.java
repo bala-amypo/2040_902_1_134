@@ -5,8 +5,6 @@ import com.example.demo.repository.RecoveryCurveProfileRepository;
 import com.example.demo.service.RecoveryCurveService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class RecoveryCurveServiceImpl implements RecoveryCurveService {
 
@@ -17,17 +15,7 @@ public class RecoveryCurveServiceImpl implements RecoveryCurveService {
     }
 
     @Override
-    public RecoveryCurveProfile create(RecoveryCurveProfile profile) {
-        return repository.save(profile);
-    }
-
-    @Override
-    public List<RecoveryCurveProfile> getByPatientId(Long patientId) {
+    public RecoveryCurveProfile getCurveForSurgery(String patientId) {
         return repository.findByPatientId(patientId);
-    }
-
-    @Override
-    public List<RecoveryCurveProfile> getAllCurves() {
-        return repository.findAll();
     }
 }

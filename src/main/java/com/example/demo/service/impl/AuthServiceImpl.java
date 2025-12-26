@@ -1,14 +1,10 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dto.AuthRequest;
-import com.example.demo.dto.AuthResponse;
-import com.example.demo.dto.RegisterRequest;
+import com.example.demo.dto.*;
 import com.example.demo.model.AppUser;
 import com.example.demo.repository.AppUserRepository;
 import com.example.demo.service.AuthService;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -20,23 +16,18 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthResponse login(AuthRequest request) {
-        Optional<AppUser> optUser = repository.findByUsername(request.getUsername());
-        if (optUser.isPresent()) {
-            AppUser u = optUser.get();
-            if (u.getPassword().equals(request.getPassword())) {
-                return new AuthResponse("JWT-TOKEN-FOR-" + u.getUsername());
-            }
-        }
-        throw new RuntimeException("Invalid credentials");
+    public AuthResponse register(RegisterRequest request) {
+        AppUser user = new AppUser();
+        user.setUsername(request.getUsername());
+        user.setPassword(request.getPassword());
+        user.setEmail(request.getEmail());
+        user.setRole("USER");
+        repository.save(user);
+        return new AuthResponse();
     }
 
     @Override
-    public void register(RegisterRequest request) {
-        AppUser u = new AppUser();
-        u.setUsername(request.getUsername());
-        u.setPassword(request.getPassword());
-        u.setEmail(request.getEmail());
-        repository.save(u);
+    public AuthResponse authenticate(AuthRequest request) {
+        return new AuthResponse();
     }
 }
