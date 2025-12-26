@@ -4,7 +4,6 @@ import com.example.demo.model.ClinicalAlertRecord;
 import com.example.demo.repository.ClinicalAlertRepository;
 import com.example.demo.service.ClinicalAlertService;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
