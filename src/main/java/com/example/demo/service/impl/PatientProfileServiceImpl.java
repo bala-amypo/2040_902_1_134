@@ -16,15 +16,13 @@ public class PatientProfileServiceImpl implements PatientProfileService {
         this.repository = repository;
     }
 
-    public PatientProfile createProfile(PatientProfile patient) {
+    @Override
+    public PatientProfile createPatient(PatientProfile patient) {
         return repository.save(patient);
     }
 
-    public PatientProfile getProfileById(Long id) {
-        return repository.findById(id).orElse(null);
-    }
-
-    public List<PatientProfile> getAllProfiles() {
+    @Override
+    public List<PatientProfile> getAllPatients() {
         return repository.findAll();
     }
 }

@@ -1,13 +1,8 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.*;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class AppUser {
 
     @Id
@@ -15,8 +10,18 @@ public class AppUser {
     private Long id;
 
     private String email;
-
     private String password;
-
     private String role;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getRole() {
+        return role;
+    }
 }
