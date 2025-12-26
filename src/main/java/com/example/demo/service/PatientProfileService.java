@@ -1,11 +1,13 @@
 package com.example.demo.service;
 
 import com.example.demo.model.PatientProfile;
-
 import java.util.List;
+import java.util.Optional;
 
 public interface PatientProfileService {
-    PatientProfile createProfile(PatientProfile patient);
-    PatientProfile getProfileById(Long id);
-    List<PatientProfile> getAllProfiles();
+    PatientProfile createPatient(PatientProfile profile);
+    PatientProfile getPatientById(Long id);
+    PatientProfile updatePatientStatus(Long id, Boolean active);
+    Optional<PatientProfile> findByPatientId(String patientId);
+    List<PatientProfile> getAllPatients();
 }
