@@ -1,29 +1,34 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.AppUser;
+import com.example.demo.dto.AuthRequest;
+import com.example.demo.dto.AuthResponse;
+import com.example.demo.dto.RegisterRequest;
 import com.example.demo.service.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
+@Tag(name = "Authentication", description = "User authentication operations")
 public class AuthController {
-
-    private final AuthService service;
-
-    public AuthController(AuthService service) {
-        this.service = service;
+    
+    private final AuthService authService;
+    
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
-
+    
     @PostMapping("/register")
-    public AppUser register(@RequestBody AppUser user) {
-        return service.register(user);
+    @Operation(summary = "Register new user")
+    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(authService.register(request));
     }
-
+    
     @PostMapping("/login")
-    public String login(@RequestParam String username,
-                        @RequestParam String password) {
-
-        boolean success = service.login(username, password);
-        return success ? "Login successful" : "Invalid credentials";
+    @Operation(summary = "Login user")
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
+        return ResponseEntity.ok(authService.login(request));
     }
 }
