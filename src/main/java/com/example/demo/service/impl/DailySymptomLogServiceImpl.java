@@ -4,6 +4,7 @@ import com.example.demo.model.DailySymptomLog;
 import com.example.demo.repository.DailySymptomLogRepository;
 import com.example.demo.service.DailySymptomLogService;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class DailySymptomLogServiceImpl implements DailySymptomLogService {
@@ -23,5 +24,10 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     public DailySymptomLog updateSymptomLog(Long id, DailySymptomLog log) {
         log.setId(id);
         return repository.save(log);
+    }
+
+    @Override
+    public List<DailySymptomLog> getLogsByPatient(Long patientId) {
+        return repository.findByPatientId(patientId);
     }
 }

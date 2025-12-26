@@ -22,6 +22,8 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
 
     @Override
     public String getMessage() {
-        return "Deviation rule triggered"; // matches test case exactly
+        return repository.findAll().stream()
+                .map(DeviationRule::getMessage)
+                .findFirst().orElse("");
     }
 }
