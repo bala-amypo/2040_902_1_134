@@ -77,14 +77,13 @@ public class DemoApplicationTests {
 
         RecoveryCurveService rcService = recoveryCurveService;
         DeviationRuleService drService = deviationRuleService;
-        ClinicalAlertService caService = clinicalAlertService;
 
         dailySymptomLogService = new DailySymptomLogServiceImpl(
                 dailySymptomLogRepository,
                 patientProfileRepository,
                 rcService,
                 drService,
-                caService
+                clinicalAlertRecordRepository
         );
     }
 
