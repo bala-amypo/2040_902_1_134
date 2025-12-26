@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.ClinicalAlertRecord;
 import com.example.demo.repository.ClinicalAlertRecordRepository;
 import com.example.demo.service.ClinicalAlertService;
@@ -10,33 +11,33 @@ import java.util.Optional;
 
 @Service
 public class ClinicalAlertServiceImpl implements ClinicalAlertService {
-
-    private final ClinicalAlertRecordRepository repository;
-
-    public ClinicalAlertServiceImpl(ClinicalAlertRecordRepository repository) {
-        this.repository = repository;
+    
+    private final ClinicalAlertRecordRepository clinicalAlertRecordRepository;
+    
+    public ClinicalAlertServiceImpl(ClinicalAlertRecordRepository clinicalAlertRecordRepository) {
+        this.clinicalAlertRecordRepository = clinicalAlertRecordRepository;
     }
-
+    
     @Override
-    public ClinicalAlertRecord createAlert(ClinicalAlertRecord alertRecord) {
-        // When creating, resolved should default to false
-        alertRecord.setResolved(false);
-        return repository.save(alertRecord);
+    public ClinicalAlertRecord resolveAlert(Long id) {
+        ClinicalAlertRecord alert = clinicalAlertRecordRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Alert not found"));
+        alert.setResolved(true);
+        return clinicalAlertRecordRepository.save(alert);
     }
-
+    
     @Override
     public List<ClinicalAlertRecord> getAlertsByPatient(Long patientId) {
-        return repository.findByPatientId(patientId);
+        return clinicalAlertRecordRepository.findByPatientId(patientId);
     }
-
+    
     @Override
-    public ClinicalAlertRecord resolveAlert(Long logId) {
-        Optional<ClinicalAlertRecord> optional = repository.findById(logId);
-        if (optional.isPresent()) {
-            ClinicalAlertRecord alert = optional.get();
-            alert.setResolved(true);
-            return repository.save(alert);
-        }
-        return null; // or throw exception depending on your design
+    public Optional<ClinicalAlertRecord> getAlertById(Long id) {
+        return clinicalAlertRecordRepository.findById(id);
+    }
+    
+    @Override
+    public List<ClinicalAlertRecord> getAllAlerts() {
+        return clinicalAlertRecordRepository.findAll();
     }
 }
