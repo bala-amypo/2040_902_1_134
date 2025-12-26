@@ -1,7 +1,21 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import com.example.demo.model.DailySymptomLog;
+import com.example.demo.repository.DailySymptomLogRepository;
+import com.example.demo.service.DailySymptomLogService;
+import org.springframework.stereotype.Service;
 
-public interface DailySymptomLogService {
-    DailySymptomLog recordSymptomLog(DailySymptomLog log);
+@Service
+public class DailySymptomLogServiceImpl implements DailySymptomLogService {
+
+    private final DailySymptomLogRepository repository;
+
+    public DailySymptomLogServiceImpl(DailySymptomLogRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public DailySymptomLog recordSymptomLog(DailySymptomLog log) {
+        return repository.save(log);
+    }
 }

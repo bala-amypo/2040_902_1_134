@@ -1,25 +1,13 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
-import lombok.*;
-
-@Entity
-@Table(name = "clinical_alert_records")
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class ClinicalAlertRecord {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
-    
-    private Long patientId;
-    private Long logId;
-    private String alertType;
-    private String severity;
-    private String message;
-    
-    @Builder.Default
-    private Boolean resolved = false;
+    private boolean resolved;
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public boolean isResolved() { return resolved; }
+    public void setResolved(boolean resolved) { this.resolved = resolved; }
 }
