@@ -8,6 +8,8 @@ import com.example.demo.repository.AppUserRepository;
 import com.example.demo.service.AuthService;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AuthServiceImpl implements AuthService {
 
@@ -19,9 +21,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse login(AuthRequest request) {
-        AppUser u = repository.findByUsername(request.getUsername());
-        if (u != null && u.getPassword().equals(request.getPassword())) {
-            return new AuthResponse("JWT-TOKEN-FOR-" + u.getUsername());
+        Optional<AppUser> optUser = repository.findByUsername(request.getUsername());
+        if (optUser.isPresent()) {
+            AppUser u = optUser.get();
+            if (u.getPassword().equals(request.getPassword())) {
+                return new AuthResponse("JWT-TOKEN-FOR-" + u.getUsername());
+            }
         }
         throw new RuntimeException("Invalid credentials");
     }
