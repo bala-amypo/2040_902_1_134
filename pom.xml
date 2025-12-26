@@ -102,11 +102,6 @@
 							<value>false</value>
 						</property>
 					</properties>
-					<!-- Try TestNG XML file first -->
-					<suiteXmlFiles>
-						<suiteXmlFile>${project.basedir}/src/test/resources/testng.xml</suiteXmlFile>
-					</suiteXmlFiles>
-					<!-- Fallback: include test classes directly -->
 					<includes>
 						<include>**/*Test*.java</include>
 					</includes>
