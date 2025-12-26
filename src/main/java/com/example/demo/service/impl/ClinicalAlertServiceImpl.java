@@ -40,4 +40,9 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
     public List<ClinicalAlertRecord> getAllAlerts() {
         return clinicalAlertRecordRepository.findAll();
     }
+
+    @Override
+    public ClinicalAlertRecord createAlert(ClinicalAlertRecord alert) {
+        return clinicalAlertRecordRepository.save(alert);
+    }
 }

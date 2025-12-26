@@ -9,4 +9,5 @@ public interface ClinicalAlertService {
     List<ClinicalAlertRecord> getAlertsByPatient(Long patientId);
     Optional<ClinicalAlertRecord> getAlertById(Long id);
     List<ClinicalAlertRecord> getAllAlerts();
+    ClinicalAlertRecord createAlert(ClinicalAlertRecord alert);
 }
