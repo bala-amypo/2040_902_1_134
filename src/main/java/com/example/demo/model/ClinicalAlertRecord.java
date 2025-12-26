@@ -1,41 +1,31 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-
-import java.time.LocalDateTime;
+import lombok.*;
 
 @Entity
-@Table(name = "clinical_alerts")
+@Table(name = "clinical_alert_records")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ClinicalAlertRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long logId;
 
     private Long patientId;
 
     private String alertMessage;
 
-    private LocalDateTime createdAt;
+    private Boolean resolved;
 
-    public ClinicalAlertRecord() {}
+    private String ruleCode;
 
-    public ClinicalAlertRecord(Long patientId, String alertMessage, LocalDateTime createdAt) {
-        this.patientId = patientId;
-        this.alertMessage = alertMessage;
-        this.createdAt = createdAt;
-    }
+    // Add any additional fields referenced in your test cases
+    // For example, timestamps if needed
+    // private LocalDateTime createdAt;
 
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public Long getPatientId() { return patientId; }
-    public void setPatientId(Long patientId) { this.patientId = patientId; }
-
-    public String getAlertMessage() { return alertMessage; }
-    public void setAlertMessage(String alertMessage) { this.alertMessage = alertMessage; }
-
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    // You can also add convenience methods if your test cases reference them
 }
