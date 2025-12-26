@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ClinicalAlertRecordRepository extends JpaRepository<ClinicalAlertRecord, Long> {
+    // Add custom queries if needed
+    // Example: List<ClinicalAlertRecord> findByPatientId(Long patientId);
 }
