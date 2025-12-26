@@ -12,9 +12,9 @@ public class AppUser {
     private String username;
     private String password;
     private String email;
-    private String role; // <-- add this
+    private String role; // must exist for JWT
 
-    // Getters and setters
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -27,6 +27,38 @@ public class AppUser {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
-    public String getRole() { return role; } // <-- add this
-    public void setRole(String role) { this.role = role; } // <-- add this
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
+}
+package com.example.demo.model;
+
+import jakarta.persistence.*;
+
+@Entity
+public class AppUser {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String username;
+    private String password;
+    private String email;
+    private String role; // must exist for JWT
+
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
 }
