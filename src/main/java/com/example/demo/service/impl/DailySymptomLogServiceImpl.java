@@ -17,18 +17,18 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     private final PatientProfileRepository patientProfileRepository;
     private final RecoveryCurveService recoveryCurveService;
     private final DeviationRuleService deviationRuleService;
-    private final ClinicalAlertRecordRepository clinicalAlertRecordRepository;
+    private final ClinicalAlertService clinicalAlertService;
     
     public DailySymptomLogServiceImpl(DailySymptomLogRepository dailySymptomLogRepository,
                                     PatientProfileRepository patientProfileRepository,
                                     RecoveryCurveService recoveryCurveService,
                                     DeviationRuleService deviationRuleService,
-                                    ClinicalAlertRecordRepository clinicalAlertRecordRepository) {
+                                    ClinicalAlertService clinicalAlertService) {
         this.dailySymptomLogRepository = dailySymptomLogRepository;
         this.patientProfileRepository = patientProfileRepository;
         this.recoveryCurveService = recoveryCurveService;
         this.deviationRuleService = deviationRuleService;
-        this.clinicalAlertRecordRepository = clinicalAlertRecordRepository;
+        this.clinicalAlertService = clinicalAlertService;
     }
     
     @Override
@@ -56,15 +56,17 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     public DailySymptomLog updateSymptomLog(Long id, DailySymptomLog log) {
         DailySymptomLog existing = dailySymptomLogRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Log not found"));
-        
+
         PatientProfile patient = patientProfileRepository.findById(log.getPatientId())
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
-        
+
+        existing.setPatientId(log.getPatientId());
+        existing.setLogDate(log.getLogDate());
         existing.setPainLevel(log.getPainLevel());
         existing.setMobilityLevel(log.getMobilityLevel());
         existing.setFatigueLevel(log.getFatigueLevel());
         existing.setAdditionalNotes(log.getAdditionalNotes());
-        
+
         return dailySymptomLogRepository.save(existing);
     }
     
@@ -72,13 +74,13 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
         long daysSinceSurgery = ChronoUnit.DAYS.between(patient.getCreatedAt().toLocalDate(), log.getLogDate());
         List<RecoveryCurveProfile> curves = recoveryCurveService.getCurveForSurgery(patient.getSurgeryType());
         List<DeviationRule> rules = deviationRuleService.getActiveRules();
-        
+
         for (DeviationRule rule : rules) {
             if ("PAIN".equals(rule.getParameter()) && log.getPainLevel() != null) {
                 RecoveryCurveProfile expectedCurve = curves.stream()
                         .filter(c -> c.getDayNumber() == daysSinceSurgery)
                         .findFirst().orElse(null);
-                
+
                 if (expectedCurve != null && log.getPainLevel() > expectedCurve.getExpectedPainLevel() + rule.getThreshold()) {
                     ClinicalAlertRecord alert = ClinicalAlertRecord.builder()
                             .patientId(log.getPatientId())
@@ -88,8 +90,8 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
                             .message("Pain level exceeded expected range")
                             .resolved(false)
                             .build();
-                    
-                    clinicalAlertRecordRepository.save(alert);
+
+                    clinicalAlertService.createAlert(alert);
                 }
             }
         }
