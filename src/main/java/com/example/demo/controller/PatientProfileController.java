@@ -15,11 +15,11 @@ import java.util.Optional;
 @RequestMapping("/api/patients")
 @Tag(name = "Patient Management", description = "Patient profile operations")
 @SecurityRequirement(name = "bearerAuth")
-public class PatientController {
+public class PatientProfileController {
     
     private final PatientProfileService patientProfileService;
     
-    public PatientController(PatientProfileService patientProfileService) {
+    public PatientProfileController(PatientProfileService patientProfileService) {
         this.patientProfileService = patientProfileService;
     }
     
