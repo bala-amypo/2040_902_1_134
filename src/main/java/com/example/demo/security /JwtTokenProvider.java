@@ -9,82 +9,48 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
-
-    private final SecretKey secretKey;
-    private final long validityInMs;
-
-    public JwtTokenProvider(
-            @Value("${jwt.secret}") String secret,
-            @Value("${jwt.validity}") long validityInMs
-    ) {
-        this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-        this.validityInMs = validityInMs;
-    }
-
-    /**
-     * Generate JWT token
-     */
+    
+    @Value("${jwt.secret}")
+    private String jwtSecret;
+    
+    @Value("${jwt.expiration}")
+    private int jwtExpiration;
+    
     public String generateToken(AppUser user) {
-        if (user == null || user.getId() == null) {
-            throw new IllegalArgumentException("User or User ID cannot be null");
-        }
-
-        Date now = new Date();
-        Date expiry = new Date(now.getTime() + validityInMs);
-
+        Date expiryDate = new Date(System.currentTimeMillis() + jwtExpiration);
+        SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+        
         return Jwts.builder()
-                .setSubject(user.getId().toString())
-                .claim("email", user.getEmail())
-                .claim("role", user.getRole() != null ? user.getRole().name() : "")
-                .setIssuedAt(now)
-                .setExpiration(expiry)
-                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .setSubject(user.getEmail())
+                .claim("userId", user.getId())
+                .claim("role", user.getRole().toString())
+                .setIssuedAt(new Date())
+                .setExpiration(expiryDate)
+                .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
     }
-
-    /**
-     * Validate token signature + expiry
-     */
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parserBuilder()
-                    .setSigningKey(secretKey)
-                    .build()
-                    .parseClaimsJws(token);
-            return true;
-        } catch (Exception ex) {
-            return false;
-        }
-    }
-
-    /**
-     * Extract claims from token
-     */
-    public Claims getClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(secretKey)
+    
+    public String getUsernameFromToken(String token) {
+        SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+        return claims.getSubject();
     }
-
-    /**
-     * Helper methods often required in hidden tests
-     */
-    public String getUserIdFromToken(String token) {
-        return getClaims(token).getSubject();
-    }
-
-    public String getEmailFromToken(String token) {
-        return getClaims(token).get("email", String.class);
-    }
-
-    public String getRoleFromToken(String token) {
-        return getClaims(token).get("role", String.class);
+    
+    public boolean validateToken(String token) {
+        try {
+            SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
