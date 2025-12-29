@@ -11,32 +11,46 @@ import java.util.Optional;
 
 @Service
 public class DeviationRuleServiceImpl implements DeviationRuleService {
-    
-    private final DeviationRuleRepository deviationRuleRepository;
-    
-    public DeviationRuleServiceImpl(DeviationRuleRepository deviationRuleRepository) {
-        this.deviationRuleRepository = deviationRuleRepository;
+
+    private final DeviationRuleRepository repository;
+
+    public DeviationRuleServiceImpl(DeviationRuleRepository repository) {
+        this.repository = repository;
     }
-    
+
     @Override
     public DeviationRule createRule(DeviationRule rule) {
-        return deviationRuleRepository.save(rule);
+        if (rule.getThreshold() == null || rule.getThreshold() <= 0) {
+            throw new IllegalArgumentException("Threshold must be positive");
+        }
+        return repository.save(rule);
     }
-    
-    @Override
-    public Optional<DeviationRule> getRuleByCode(String ruleCode) {
-        return deviationRuleRepository.findByRuleCode(ruleCode);
-    }
-    
-    @Override
-    public List<DeviationRule> getActiveRules() {
-        return deviationRuleRepository.findByActiveTrue();
-    }
-    
+
     @Override
     public DeviationRule updateRule(Long id, DeviationRule rule) {
-        DeviationRule existing = deviationRuleRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Rule not found"));
-        return deviationRuleRepository.save(rule);
+        DeviationRule existing = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Deviation rule not found"));
+        existing.setParameter(rule.getParameter());
+        existing.setRuleCode(rule.getRuleCode());
+        existing.setThreshold(rule.getThreshold());
+        existing.setSeverity(rule.getSeverity());
+        existing.setActive(rule.getActive());
+        existing.setSurgeryType(rule.getSurgeryType());
+        return repository.save(existing);
+    }
+
+    @Override
+    public List<DeviationRule> getAllRules() {
+        return repository.findAll();
+    }
+
+    @Override
+    public List<DeviationRule> getActiveRules() {
+        return repository.findByActiveTrue();
+    }
+
+    @Override
+    public Optional<DeviationRule> getRuleByCode(String ruleCode) {
+        return repository.findByRuleCode(ruleCode);
     }
 }

@@ -15,47 +15,72 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthServiceImpl implements AuthService {
-    
+
     private final AppUserRepository appUserRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
-    
-    public AuthServiceImpl(AppUserRepository appUserRepository, 
-                          PasswordEncoder passwordEncoder,
-                          AuthenticationManager authenticationManager,
-                          JwtTokenProvider jwtTokenProvider) {
+
+    public AuthServiceImpl(AppUserRepository appUserRepository,
+                           PasswordEncoder passwordEncoder,
+                           AuthenticationManager authenticationManager,
+                           JwtTokenProvider jwtTokenProvider) {
         this.appUserRepository = appUserRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
     }
-    
+
     @Override
     public AuthResponse register(RegisterRequest request) {
+
+        if (appUserRepository.existsByEmail(request.getEmail())) {
+            throw new IllegalArgumentException("Email already exists");
+        }
+
+        UserRole role = request.getRole() != null
+                ? request.getRole()
+                : UserRole.CLINICIAN; // default fallback
+
         AppUser user = AppUser.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .fullName(request.getFullName())
-                .role(UserRole.CLINICIAN)
+                .role(role)
                 .build();
-        
+
         AppUser savedUser = appUserRepository.save(user);
+
         String token = jwtTokenProvider.generateToken(savedUser);
-        
-        return new AuthResponse(token, savedUser.getEmail(), savedUser.getRole().toString());
+
+        return new AuthResponse(
+                token,
+                savedUser.getEmail(),
+                savedUser.getRole(),
+                savedUser.getId()
+        );
     }
-    
+
     @Override
     public AuthResponse login(AuthRequest request) {
+
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
         );
-        
+
         AppUser user = appUserRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        
+                .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
+
         String token = jwtTokenProvider.generateToken(user);
-        return new AuthResponse(token, user.getEmail(), user.getRole().toString());
+
+        return new AuthResponse(
+                token,
+                user.getEmail(),
+                user.getRole(),
+                user.getId()
+        );
     }
 }

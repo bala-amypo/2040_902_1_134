@@ -9,25 +9,26 @@ import java.util.List;
 
 @Service
 public class RecoveryCurveServiceImpl implements RecoveryCurveService {
-    
-    private final RecoveryCurveProfileRepository recoveryCurveProfileRepository;
-    
-    public RecoveryCurveServiceImpl(RecoveryCurveProfileRepository recoveryCurveProfileRepository) {
-        this.recoveryCurveProfileRepository = recoveryCurveProfileRepository;
+
+    private final RecoveryCurveProfileRepository repository;
+
+    public RecoveryCurveServiceImpl(RecoveryCurveProfileRepository repository) {
+        this.repository = repository;
     }
-    
+
     @Override
     public RecoveryCurveProfile createCurveEntry(RecoveryCurveProfile curve) {
-        return recoveryCurveProfileRepository.save(curve);
+        return repository.save(curve);
     }
-    
+
     @Override
     public List<RecoveryCurveProfile> getCurveForSurgery(String surgeryType) {
-        return recoveryCurveProfileRepository.findBySurgeryTypeOrderByDayNumberAsc(surgeryType);
+        return repository.findBySurgeryTypeOrderByDayNumberAsc(surgeryType);
     }
-    
+
     @Override
     public List<RecoveryCurveProfile> getAllCurves() {
-        return recoveryCurveProfileRepository.findAll();
+        return repository.findAll();
     }
 }
+
