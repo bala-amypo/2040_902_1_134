@@ -1,10 +1,16 @@
-package com.example.demo.dto;
+    package com.example.demo.dto;
 
-import lombok.Data;
+    import com.example.demo.model.UserRole;
+    import lombok.AllArgsConstructor;
+    import lombok.Data;
+    import lombok.NoArgsConstructor;
 
-@Data
-public class RegisterRequest {
-    private String email;
-    private String password;
-    private String fullName;
-}
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public class RegisterRequest {
+        private String email;
+        private String password;
+        private String fullName;
+        private UserRole role;
+    }

@@ -6,17 +6,21 @@ import lombok.*;
 @Entity
 @Table(name = "recovery_curve_profiles")
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class RecoveryCurveProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String surgeryType;
+
     private Integer dayNumber;
+
     private Integer expectedPainLevel;
+
     private Integer expectedMobilityLevel;
+
     private Integer expectedFatigueLevel;
 }

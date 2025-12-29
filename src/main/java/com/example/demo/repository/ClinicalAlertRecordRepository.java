@@ -5,8 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ClinicalAlertRecordRepository
-        extends JpaRepository<ClinicalAlertRecord, Long> {
-
-    List<ClinicalAlertRecord> findByPatientId(long patientId);
+public interface ClinicalAlertRecordRepository extends JpaRepository<ClinicalAlertRecord, Long> {
+    List<ClinicalAlertRecord> findByPatientId(Long patientId);
 }
