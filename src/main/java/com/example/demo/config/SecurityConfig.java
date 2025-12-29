@@ -28,8 +28,8 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**", "/status", "/", "/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
-                .requestMatchers("/api/patients/**", "/api/logs/**", "/api/alerts/**").authenticated()
+                .requestMatchers("/auth/**", "/api/auth/**", "/status", "/", "/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+                .requestMatchers("/api/patients/**", "/api/symptom-logs/**", "/api/alerts/**", "/api/recovery-curves/**", "/api/deviation-rules/**").authenticated()
                 .anyRequest().authenticated()
             )
             .headers(headers -> headers.frameOptions().disable())
