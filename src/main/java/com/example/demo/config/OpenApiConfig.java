@@ -1,25 +1,44 @@
 package com.example.demo.config;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
-import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
 @Configuration
-@OpenAPIDefinition(
-    info = @Info(
-        title = "Demo Application API",
-        version = "1.0",
-        description = "Spring Boot Demo Application with Patient Management and JWT Authentication"
-    )
-)
-@SecurityScheme(
-    name = "bearerAuth",
-    type = SecuritySchemeType.HTTP,
-    scheme = "bearer",
-    bearerFormat = "JWT",
-    description = "Enter JWT token obtained from /api/auth/login"
-)
 public class OpenApiConfig {
+
+    @Bean
+    public OpenAPI customOpenAPI() {
+
+        // 🔐 JWT Security Scheme
+        SecurityScheme jwtScheme = new SecurityScheme()
+                .name("Authorization")
+                .type(SecurityScheme.Type.HTTP)
+                .scheme("bearer")
+                .bearerFormat("JWT");
+
+        return new OpenAPI()
+                // 🌍 Server
+                .servers(List.of(
+                        new Server().url("https://9055.408procr.amypo.ai/")
+                ))
+
+                // 🔒 Apply security globally
+                .addSecurityItem(
+                        new SecurityRequirement().addList("BearerAuth")
+                )
+
+                // 🔑 Register security scheme
+                .components(
+                        new Components().addSecuritySchemes(
+                                "BearerAuth", jwtScheme
+                        )
+                );
+    }
 }
